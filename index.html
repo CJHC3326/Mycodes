@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOOB CALENDAR</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .calendar {
+            max-width: 500px;
+            margin: auto;
+        }
+        .calendar th, .calendar td {
+            text-align: center;
+            padding: 10px;
+        }
+        .today {
+            background-color: #0d6efd;
+            color: white;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="calendar card p-3">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <button class="btn btn-primary" onclick="prevMonth()">&lt;</button>
+                <h3 id="month-year"></h3>
+                <button class="btn btn-primary" onclick="nextMonth()">&gt;</button>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
+                    </tr>
+                </thead>
+                <tbody id="calendar-body"></tbody>
+            </table>
+        </div>
+    </div>
+    
+    <hr>
+    <BR>
+   <h2 style="text-align: center;" style="color: red;"><b>HOLIDAYS LIST</b></h2>
+ <br>
+   <P style="color: red;">JANUARY 1 NEW YEAR'S DAY</P>
+   <P style="color: red;">MARCH 28 MAUNDY THURSDAY</P>
+   <P style="color: red;">MARCH 29</P>
+   <p style="color: red;">APRIL 9 DAY OF VALOR</p>
+   <P style="color: red;">APRIL 10 Eid't Fitr</P>
+   <p style="color: red;">MAY 1 LABOR DAY</p>
+   <P style="color: red;">JUNE 12 INDEPENDENCE DAY</P>
+   <P style="color: red;">JUNE 17 Eid't Adha</P>
+   <P style="color: red;">AUGUST 26 NATIONAL HEROES DAY</P>
+   <P style="color: red;">NOVEMBER 30 BONIFACIO DAY</P>
+   <P style="color: red;">DECEMBER 25 CHRISTMAS DAY</P>
+   <P style="color: red;">DECEMBER 30 RIZAL DAY</P>
+
+   <style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background-color: silver;
+     }
+    
+    p{
+        text-align: center;
+    }
+
+
+   </style>
+
+    <script>
+        let currentDate = new Date();
+
+        function generateCalendar(date) {
+            const monthYear = document.getElementById("month-year");
+            const calendarBody = document.getElementById("calendar-body");
+            monthYear.textContent = date.toLocaleString('default', { month: 'long', year: 'numeric' });
+            calendarBody.innerHTML = "";
+
+            const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+            const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+
+            let row = document.createElement("tr");
+            for (let i = 0; i < firstDay; i++) {
+                row.appendChild(document.createElement("td"));
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                if ((row.children.length + firstDay) % 7 === 0) {
+                    calendarBody.appendChild(row);
+                    row = document.createElement("tr");
+                }
+                let cell = document.createElement("td");
+                cell.textContent = day;
+                if (date.getFullYear() === new Date().getFullYear() && 
+                    date.getMonth() === new Date().getMonth() && 
+                    day === new Date().getDate()) {
+                    cell.classList.add("today");
+                }
+                row.appendChild(cell);
+            }
+            calendarBody.appendChild(row);
+        }
+
+        function prevMonth() {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            generateCalendar(currentDate);
+        }
+
+        function nextMonth() {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            generateCalendar(currentDate);
+        }
+
+        generateCalendar(currentDate);
+    </script>
+</body>
+</html>
